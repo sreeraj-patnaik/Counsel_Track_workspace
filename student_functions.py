@@ -1,6 +1,6 @@
 import sqlite3
 from db import getconnection
-from db_functions import add_log  # for logging actions
+from db_functions import add_log 
 
 
 from db import getconnection
@@ -22,7 +22,6 @@ def get_student_by_id(student_id=None, email=None):
     if not row:
         return None
 
-    # Convert tuple → dict using column names
     columns = [desc[0] for desc in cur.description]
     student = dict(zip(columns, row))
     return student
@@ -45,7 +44,6 @@ def update_student_info(student_id, data: dict):
     conn.commit()
     conn.close()
 
-    # Log the update
     add_log("student", student_id, "updated profile")
 
 from db import getconnection
@@ -70,4 +68,5 @@ def assign_mentee_to_teacher(student_id, teacher_id):
     """, (teacher_id, student_id))
     conn.commit()
     conn.close()
+
 
