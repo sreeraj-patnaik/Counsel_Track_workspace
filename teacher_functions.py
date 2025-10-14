@@ -1,6 +1,6 @@
 import sqlite3
 from db import getconnection
-from db_functions import add_log  # for logging actions
+from db_functions import add_log  
 
 
 from db import getconnection
@@ -74,7 +74,6 @@ def update_mentee_info(mentee_id, data: dict):
     conn.commit()
     conn.close()
     
-    # Log teacher action
     add_log("teacher", mentee_id, "updated mentee profile")
 
 
@@ -95,3 +94,4 @@ def update_teacher_info(teacher_id, data: dict):
     conn.close()
     
     add_log("teacher", teacher_id, "updated own profile")
+
