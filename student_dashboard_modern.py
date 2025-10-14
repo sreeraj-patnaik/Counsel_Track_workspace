@@ -19,7 +19,6 @@ class StudentDashboard(QWidget):
         self.load_student_data()
 
     def init_ui(self):
-        # Scroll area
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         container = QFrame()
@@ -29,13 +28,11 @@ class StudentDashboard(QWidget):
         main_layout.setContentsMargins(40, 30, 40, 30)
         main_layout.setSpacing(20)
 
-        # Title
         title = QLabel("Student Dashboard")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #007BFF;")
         main_layout.addWidget(title)
 
-        # Logout Button at top-right
         self.logout_btn = QPushButton("Logout")
         self.logout_btn.clicked.connect(self.logout)
         self.logout_btn.setMinimumHeight(40)
@@ -45,25 +42,21 @@ class StudentDashboard(QWidget):
         """)
         main_layout.addWidget(self.logout_btn, alignment=Qt.AlignmentFlag.AlignRight)
 
-        # Tabs
         self.tabs = QTabWidget()
         main_layout.addWidget(self.tabs)
 
-        # Profile Tab
         self.profile_tab = QWidget()
         self.profile_layout = QVBoxLayout()
         self.profile_form = QFormLayout()
         self.profile_layout.addLayout(self.profile_form)
         self.profile_tab.setLayout(self.profile_layout)
 
-        # Attendance/SGPA Tab
         self.attendance_tab = QWidget()
         self.attendance_layout = QVBoxLayout()
         self.attendance_form = QFormLayout()
         self.attendance_layout.addLayout(self.attendance_form)
         self.attendance_tab.setLayout(self.attendance_layout)
 
-        # Remarks Tab
         self.remarks_tab = QWidget()
         self.remarks_layout = QVBoxLayout()
         self.remarks_form = QFormLayout()
@@ -74,7 +67,6 @@ class StudentDashboard(QWidget):
         self.tabs.addTab(self.attendance_tab, "Attendance/SGPA")
         self.tabs.addTab(self.remarks_tab, "Remarks")
 
-        # Editable and readonly fields
         self.editable_fields = [
             "name", "email", "password", "age", "semester", "mode_of_transport",
             "subject1", "subject2", "subject3", "subject4", "subject5", "subject6",
@@ -90,7 +82,6 @@ class StudentDashboard(QWidget):
         ]
         self.readonly_fields = ["suggestions_by_counselor", "HoD_remarks"]
 
-        # Field categories
         profile_fields = [
             "name", "email", "password", "age", "semester", "mode_of_transport",
             "subject1", "subject2", "subject3", "subject4", "subject5", "subject6",
@@ -108,7 +99,6 @@ class StudentDashboard(QWidget):
         ]
         remarks_fields = self.readonly_fields
 
-        # Create inputs
         for field in profile_fields:
             lbl = QLabel(field.replace("_", " ").title())
             edit = QLineEdit()
@@ -143,7 +133,6 @@ class StudentDashboard(QWidget):
             self.fields[field] = edit
             self.remarks_form.addRow(lbl, edit)
 
-        # Save & Accept Remarks buttons
         btn_layout = QHBoxLayout()
         self.save_btn = QPushButton("Save Changes")
         self.accept_btn = QPushButton("Accept Remarks")
@@ -158,11 +147,9 @@ class StudentDashboard(QWidget):
         self.accept_btn.clicked.connect(self.accept_remarks)
         main_layout.addLayout(btn_layout)
 
-        # Set scroll as main layout
         window_layout = QVBoxLayout(self)
         window_layout.addWidget(scroll)
 
-        # Global stylesheet
         self.setStyleSheet("""
             QWidget { background-color: #FFFFFF; font-family: Arial, sans-serif; color:#333; }
             QLabel { font-size:14px; }
@@ -193,3 +180,4 @@ class StudentDashboard(QWidget):
         self.close()
         if self.login_window:
             self.login_window.show()
+
