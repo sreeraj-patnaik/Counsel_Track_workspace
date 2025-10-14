@@ -3,14 +3,14 @@ import os
 import sys
 import shutil
 
-APP_NAME = "MyApp"  # Change this to your app name
+APP_NAME = "MyApp"  
 
 def get_user_data_dir():
     """Return a folder path to store the writable DB."""
     if sys.platform == "win32":
-        base_dir = os.getenv('APPDATA')  # e.g., C:\Users\User\AppData\Roaming
+        base_dir = os.getenv('APPDATA')  
     else:
-        base_dir = os.path.expanduser("~")  # Linux/Mac: use home directory
+        base_dir = os.path.expanduser("~")  
 
     app_dir = os.path.join(base_dir, APP_NAME)
     os.makedirs(app_dir, exist_ok=True)
@@ -24,19 +24,16 @@ def get_database_path():
     user_dir = get_user_data_dir()
     db_path = os.path.join(user_dir, "database.db")
 
-    # If DB doesn't exist in user folder, copy it from bundle or source
     if not os.path.exists(db_path):
         if getattr(sys, 'frozen', False):
-            # Running as .exe, bundled DB is in _MEIPASS
             bundle_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
             bundled_db = os.path.join(bundle_dir, "database.db")
         else:
-            # Running from source
             bundled_db = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
 
         if os.path.exists(bundled_db):
             shutil.copy2(bundled_db, db_path)
-            print(f"✅ Copied bundled DB to user folder: {db_path}")
+            print(f" Copied bundled DB to user folder: {db_path}")
         else:
             raise FileNotFoundError(f"Bundled DB not found at {bundled_db}")
 
@@ -51,7 +48,6 @@ def init_db():
     conn = getconnection()
     cursor = conn.cursor()
 
-    # STUDENTS TABLE
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS students (
             id TEXT PRIMARY KEY,
@@ -94,7 +90,6 @@ def init_db():
         )
     ''')
 
-    # TEACHERS TABLE
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS teachers (
             id TEXT PRIMARY KEY,
@@ -126,7 +121,6 @@ def init_db():
         )
     ''')
 
-    # LOGIN LOGS TABLE
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS login_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -139,7 +133,8 @@ def init_db():
 
     conn.commit()
     conn.close()
-    print(f"✅ Database initialized and ready at: {get_database_path()}")
+    print(f"Database initialized and ready at: {get_database_path()}")
 
 if __name__ == "__main__":
     init_db()
+
