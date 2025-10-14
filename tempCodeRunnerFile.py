@@ -16,7 +16,7 @@ class LoginWindow(QWidget):
         super().__init__()
         self.setWindowTitle("CounselTrack Login")
         self.setGeometry(400, 200, 600, 650)
-        self.setMinimumSize(600, 650)  # Minimum size; allow resizing
+        self.setMinimumSize(600, 650)  
         self.init_ui()
         self.center_window()
 
@@ -28,7 +28,6 @@ class LoginWindow(QWidget):
         )
 
     def init_ui(self):
-        # Main scroll area (prevents cutting off content)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         container = QFrame()
@@ -38,13 +37,11 @@ class LoginWindow(QWidget):
         main_layout.setContentsMargins(60, 40, 60, 40)
         main_layout.setSpacing(20)
 
-        # Title
         title = QLabel("CounselTrack Login")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 28px; font-weight: bold; color: #007BFF;")
         main_layout.addWidget(title)
 
-        # User type
         user_type_label = QLabel("Select User Type:")
         user_type_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         user_type_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
@@ -62,7 +59,6 @@ class LoginWindow(QWidget):
         radio_layout.addStretch(1)
         main_layout.addLayout(radio_layout)
 
-        # Email
         email_label = QLabel("Email:")
         email_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
         main_layout.addWidget(email_label)
@@ -72,7 +68,6 @@ class LoginWindow(QWidget):
         self.email_input.setMinimumHeight(45)
         main_layout.addWidget(self.email_input)
 
-        # Password
         password_label = QLabel("Password:")
         password_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
         main_layout.addWidget(password_label)
@@ -83,7 +78,6 @@ class LoginWindow(QWidget):
         self.password_input.setMinimumHeight(45)
         main_layout.addWidget(self.password_input)
 
-        # Buttons
         btn_layout = QVBoxLayout()
         btn_layout.setSpacing(15)
 
@@ -103,13 +97,11 @@ class LoginWindow(QWidget):
         btn_wrapper.addStretch(1)
         main_layout.addLayout(btn_wrapper)
 
-        main_layout.addStretch(2)  # Push everything up
+        main_layout.addStretch(2)  
 
-        # Set scroll as main layout
         window_layout = QVBoxLayout(self)
         window_layout.addWidget(scroll)
 
-        # Stylesheet
         self.setStyleSheet("""
             QWidget {
                 background-color: #FFFFFF;
@@ -209,3 +201,4 @@ if __name__ == "__main__":
     login_window = LoginWindow()
     login_window.show()
     sys.exit(app.exec())
+
