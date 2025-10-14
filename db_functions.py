@@ -49,7 +49,6 @@ def get_teacher_mentees(teacher_id):
     teacher = cur.fetchone()
     conn.close()
     if teacher:
-        # mentee columns: mentee1..mentee16
         mentees = [m for m in teacher[9:25] if m]  
         return mentees
     return []
@@ -73,3 +72,4 @@ def get_logs(user_type=None):
     logs = cur.fetchall()
     conn.close()
     return logs
+
