@@ -9,7 +9,7 @@ class SignupWindow(QWidget):
         super().__init__()
         self.login_window = login_window
         self.setWindowTitle("CounselTrack Signup")
-        self.setGeometry(400, 200, 400, 400)  # Slightly taller for better spacing
+        self.setGeometry(400, 200, 400, 400) 
         self.init_ui()
 
     def init_ui(self):
@@ -17,7 +17,6 @@ class SignupWindow(QWidget):
         layout.setSpacing(15)
         layout.setContentsMargins(40, 30, 40, 30)
 
-        # User type selection
         self.student_radio = QRadioButton("Student")
         self.teacher_radio = QRadioButton("Teacher")
         self.student_radio.setChecked(True)
@@ -26,35 +25,29 @@ class SignupWindow(QWidget):
         radio_layout.addWidget(self.teacher_radio)
         layout.addLayout(radio_layout)
 
-        # ID
         layout.addWidget(QLabel("ID:"))
         self.id_input = QLineEdit()
         layout.addWidget(self.id_input)
 
-        # Name
         layout.addWidget(QLabel("Name:"))
         self.name_input = QLineEdit()
         layout.addWidget(self.name_input)
 
-        # Email
         layout.addWidget(QLabel("Email:"))
         self.email_input = QLineEdit()
         layout.addWidget(self.email_input)
 
-        # Password
         layout.addWidget(QLabel("Password:"))
         self.pass_input = QLineEdit()
         self.pass_input.setEchoMode(QLineEdit.EchoMode.Password)
         layout.addWidget(self.pass_input)
 
-        # Signup button
         self.signup_btn = QPushButton("Create Account")
         self.signup_btn.clicked.connect(self.handle_signup)
         layout.addWidget(self.signup_btn)
 
         self.setLayout(layout)
 
-        # Modern styles
         self.setStyleSheet("""
             QWidget {
                 background-color: #FFFFFF;
@@ -137,3 +130,4 @@ class SignupWindow(QWidget):
             QMessageBox.critical(self, "Error", f"Signup failed: {str(e)}")
         finally:
             conn.close()
+
