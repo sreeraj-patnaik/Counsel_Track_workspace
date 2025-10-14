@@ -21,7 +21,6 @@ class TeacherDashboard(QWidget):
         self.load_mentees()
 
     def init_ui(self):
-        # Scroll area
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         container = QFrame()
@@ -31,13 +30,11 @@ class TeacherDashboard(QWidget):
         main_layout.setContentsMargins(40, 30, 40, 30)
         main_layout.setSpacing(20)
 
-        # Title
         title = QLabel("Teacher Dashboard")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:24px; font-weight:bold; color:#007BFF;")
         main_layout.addWidget(title)
 
-        # Logout Button
         self.logout_btn = QPushButton("Logout")
         self.logout_btn.clicked.connect(self.logout)
         self.logout_btn.setMinimumHeight(40)
@@ -47,11 +44,9 @@ class TeacherDashboard(QWidget):
         """)
         main_layout.addWidget(self.logout_btn, alignment=Qt.AlignmentFlag.AlignRight)
 
-        # Tabs
         self.tabs = QTabWidget()
         main_layout.addWidget(self.tabs)
 
-        # Mentees List Tab
         self.mentees_tab = QWidget()
         self.mentees_layout = QVBoxLayout()
         self.mentee_list_widget = QListWidget()
@@ -60,7 +55,6 @@ class TeacherDashboard(QWidget):
         self.mentees_tab.setLayout(self.mentees_layout)
         self.tabs.addTab(self.mentees_tab, "Mentees")
 
-        # Mentee Details Tab
         self.details_tab = QWidget()
         self.details_layout = QVBoxLayout()
         details_scroll = QScrollArea()
@@ -73,7 +67,6 @@ class TeacherDashboard(QWidget):
         self.details_tab.setLayout(self.details_layout)
         self.tabs.addTab(self.details_tab, "Mentee Details")
 
-        # Assignment Tab
         self.assign_tab = QWidget()
         assign_layout = QVBoxLayout()
         assign_layout.setSpacing(15)
@@ -95,7 +88,6 @@ class TeacherDashboard(QWidget):
         self.tabs.addTab(self.assign_tab, "Assign Mentees")
         self.load_unassigned_students()
 
-        # Editable & Readonly fields
         self.editable_fields = ["suggestions_by_counselor", "HoD_remarks"]
         self.readonly_fields = [
             "name", "email", "age", "semester", "mode_of_transport",
@@ -111,7 +103,6 @@ class TeacherDashboard(QWidget):
             "attendancem4","attendancem5"
         ]
 
-        # Input widgets
         for field in self.readonly_fields:
             lbl = QLabel(field.replace("_"," ").title())
             edit = QLineEdit()
@@ -134,7 +125,6 @@ class TeacherDashboard(QWidget):
             self.fields[field] = edit
             self.form_layout.addRow(lbl, edit)
 
-        # Save button
         self.save_btn = QPushButton("Save Changes")
         self.save_btn.setMinimumHeight(40)
         self.save_btn.setStyleSheet("""
@@ -144,17 +134,14 @@ class TeacherDashboard(QWidget):
         self.save_btn.clicked.connect(self.save_changes)
         self.form_layout.addRow(self.save_btn)
 
-        # Set main layout
         window_layout = QVBoxLayout(self)
         window_layout.addWidget(scroll)
 
-        # Global style
         self.setStyleSheet("""
             QWidget { background-color:#fff; font-family: Arial, sans-serif; color:#333; }
             QLabel { font-size:14px; }
         """)
 
-    # Load mentees
     def load_mentees(self):
         self.mentee_list_widget.clear()
         for mentee_id in get_mentees_list(self.teacher_id):
@@ -163,7 +150,6 @@ class TeacherDashboard(QWidget):
                 item = QListWidgetItem(f"{student['id']} - {student['name']}")
                 self.mentee_list_widget.addItem(item)
 
-    # Load mentee data into form
     def load_mentee_data(self, item):
         mentee_id = item.text().split(" - ")[0]
         self.current_mentee_id = mentee_id
@@ -216,3 +202,4 @@ class TeacherDashboard(QWidget):
         self.close()
         if self.login_window:
             self.login_window.show()
+
