@@ -15,8 +15,8 @@ class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("CounselTrack Login")
-        self.setGeometry(400, 200, 600, 650)
-        self.setMinimumSize(600, 650) 
+        self.setGeometry(400, 200, 650, 700)
+        self.setMinimumSize(650, 700) 
         self.init_ui()
         self.center_window()
 
@@ -35,17 +35,17 @@ class LoginWindow(QWidget):
         scroll.setWidget(container)
 
         main_layout = QVBoxLayout(container)
-        main_layout.setContentsMargins(60, 40, 60, 40)
-        main_layout.setSpacing(20)
+        main_layout.setContentsMargins(70, 50, 70, 50)
+        main_layout.setSpacing(25)
 
         title = QLabel("CounselTrack Login")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("font-size: 28px; font-weight: bold; color: #007BFF;")
+        title.setStyleSheet("font-size: 32px; font-weight: bold; color: #2E3440; margin-bottom: 10px;")
         main_layout.addWidget(title)
 
         user_type_label = QLabel("Select User Type:")
         user_type_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        user_type_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
+        user_type_label.setStyleSheet("font-weight: bold; font-size: 18px; color: #4C566A;")
         main_layout.addWidget(user_type_label)
 
         self.student_radio = QRadioButton("Student")
@@ -55,41 +55,43 @@ class LoginWindow(QWidget):
         radio_layout = QHBoxLayout()
         radio_layout.addStretch(1)
         radio_layout.addWidget(self.student_radio)
-        radio_layout.addSpacing(20)
+        radio_layout.addSpacing(30)
         radio_layout.addWidget(self.teacher_radio)
         radio_layout.addStretch(1)
         main_layout.addLayout(radio_layout)
 
         email_label = QLabel("Email:")
-        email_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
+        email_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #4C566A;")
         main_layout.addWidget(email_label)
 
         self.email_input = QLineEdit()
         self.email_input.setPlaceholderText("Enter your email")
-        self.email_input.setMinimumHeight(45)
+        self.email_input.setMinimumHeight(50)
         main_layout.addWidget(self.email_input)
 
         password_label = QLabel("Password:")
-        password_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #495057;")
+        password_label.setStyleSheet("font-weight: bold; font-size: 16px; color: #4C566A;")
         main_layout.addWidget(password_label)
 
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_input.setPlaceholderText("Enter your password")
-        self.password_input.setMinimumHeight(45)
+        self.password_input.setMinimumHeight(50)
         main_layout.addWidget(self.password_input)
 
         btn_layout = QVBoxLayout()
-        btn_layout.setSpacing(15)
+        btn_layout.setSpacing(20)
 
         self.login_btn = QPushButton("Login")
         self.login_btn.clicked.connect(self.handle_login)
-        self.login_btn.setMinimumHeight(50)
+        self.login_btn.setMinimumHeight(55)
+        self.login_btn.setToolTip("Log in to your account")
         btn_layout.addWidget(self.login_btn)
 
         self.signup_btn = QPushButton("New user? Create an account")
         self.signup_btn.clicked.connect(self.open_signup)
-        self.signup_btn.setMinimumHeight(50)
+        self.signup_btn.setMinimumHeight(55)
+        self.signup_btn.setToolTip("Sign up for a new account")
         btn_layout.addWidget(self.signup_btn)
 
         btn_wrapper = QHBoxLayout()
@@ -105,46 +107,62 @@ class LoginWindow(QWidget):
 
         self.setStyleSheet("""
             QWidget {
-                background-color: #FFFFFF;
-                font-family: Arial, sans-serif;
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #F8F9FA, stop:1 #ECEFF4);
+                font-family: 'Segoe UI', Arial, sans-serif;
                 font-size: 14px;
-                color: #333333;
+                color: #2E3440;
             }
             QRadioButton {
-                font-size: 15px;
-                spacing: 10px;
+                font-size: 16px;
+                spacing: 12px;
+                color: #4C566A;
             }
             QRadioButton::indicator {
-                width: 18px;
-                height: 18px;
+                width: 20px;
+                height: 20px;
+                border-radius: 10px;
+                border: 2px solid #D8DEE9;
+                background-color: #FFFFFF;
             }
             QRadioButton::indicator:checked {
-                background-color: #007BFF;
+                background-color: #5E81AC;
+                border: 2px solid #5E81AC;
             }
             QLineEdit {
-                padding: 10px;
-                border-radius: 6px;
-                border: 1px solid #CCCCCC;
+                padding: 12px;
+                border-radius: 10px;
+                border: 2px solid #D8DEE9;
                 font-size: 15px;
+                background-color: #FFFFFF;
             }
             QLineEdit:focus {
-                border-color: #007BFF;
+                border-color: #5E81AC;
+                background-color: #F8F9FA;
             }
             QPushButton {
-                background-color: #007BFF;
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #A3BE8C, stop:1 #88C0D0);
                 color: white;
-                border-radius: 6px;
+                border-radius: 12px;
                 font-weight: bold;
+                font-size: 16px;
+                padding: 15px;
             }
             QPushButton:hover {
-                background-color: #0056b3;
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #8FBCBB, stop:1 #81A1C1);
+            }
+            QPushButton:pressed {
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #5E81AC, stop:1 #4C566A);
             }
             QPushButton#signup {
-                background-color: #6C757D;
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #D08770, stop:1 #BF616A);
             }
             QPushButton#signup:hover {
-                background-color: #545B62;
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #BF616A, stop:1 #A94442);
             }
+            QPushButton#signup:pressed {
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #A94442, stop:1 #8B0000);
+            }
+            QScrollArea { border: none; }
         """)
         self.signup_btn.setObjectName("signup")
 
@@ -202,4 +220,3 @@ if __name__ == "__main__":
     login_window = LoginWindow()
     login_window.show()
     sys.exit(app.exec())
-
