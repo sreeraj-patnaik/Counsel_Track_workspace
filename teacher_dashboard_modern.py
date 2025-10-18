@@ -14,7 +14,7 @@ class TeacherDashboard(QWidget):
         self.teacher_id = teacher_id
         self.login_window = login_window
         self.setWindowTitle("CounselTrack Teacher Dashboard")
-        self.setGeometry(100, 50, 900, 650)
+        self.setGeometry(100, 50, 950, 700)
         self.fields = {}
         self.current_mentee_id = None
         self.init_ui()
@@ -27,59 +27,91 @@ class TeacherDashboard(QWidget):
         scroll.setWidget(container)
 
         main_layout = QVBoxLayout(container)
-        main_layout.setContentsMargins(40, 30, 40, 30)
-        main_layout.setSpacing(20)
+        main_layout.setContentsMargins(50, 40, 50, 40)
+        main_layout.setSpacing(25)
 
+        # Header Section
+        header_layout = QHBoxLayout()
         title = QLabel("Teacher Dashboard")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("font-size:24px; font-weight:bold; color:#007BFF;")
-        main_layout.addWidget(title)
+        title.setStyleSheet("font-size: 32px; font-weight: bold; color: #2E3440; margin-bottom: 10px;")
+        header_layout.addWidget(title)
 
         self.logout_btn = QPushButton("Logout")
         self.logout_btn.clicked.connect(self.logout)
-        self.logout_btn.setMinimumHeight(40)
+        self.logout_btn.setMinimumHeight(45)
         self.logout_btn.setStyleSheet("""
-            QPushButton { background-color: #f44336; color: white; border-radius: 6px; font-weight:bold; }
-            QPushButton:hover { background-color: #da190b; }
+            QPushButton { background-color: #BF616A; color: white; border-radius: 10px; font-weight: bold; font-size: 14px; padding: 12px 20px; }
+            QPushButton:hover { background-color: #D08770; }
+            QPushButton:pressed { background-color: #A94442; }
         """)
-        main_layout.addWidget(self.logout_btn, alignment=Qt.AlignmentFlag.AlignRight)
+        header_layout.addWidget(self.logout_btn, alignment=Qt.AlignmentFlag.AlignRight)
+        main_layout.addLayout(header_layout)
 
+        # Tabs with improved styling
         self.tabs = QTabWidget()
+        self.tabs.setStyleSheet("""
+            QTabWidget::pane { border: 2px solid #D8DEE9; border-radius: 12px; background-color: #FFFFFF; }
+            QTabBar::tab { background-color: #ECEFF4; color: #2E3440; padding: 15px 25px; margin-right: 5px; border-radius: 12px 12px 0 0; font-weight: bold; font-size: 14px; }
+            QTabBar::tab:selected { background-color: #5E81AC; color: white; }
+            QTabBar::tab:hover { background-color: #81A1C1; color: white; }
+        """)
         main_layout.addWidget(self.tabs)
 
+        # Mentees Tab
         self.mentees_tab = QWidget()
         self.mentees_layout = QVBoxLayout()
         self.mentee_list_widget = QListWidget()
         self.mentee_list_widget.itemClicked.connect(self.load_mentee_data)
+        self.mentee_list_widget.setStyleSheet("""
+            QListWidget { border: 2px solid #D8DEE9; border-radius: 10px; background-color: #FFFFFF; font-size: 14px; }
+            QListWidget::item { padding: 10px; border-bottom: 1px solid #ECEFF4; }
+            QListWidget::item:selected { background-color: #81A1C1; color: white; }
+            QListWidget::item:hover { background-color: #D8DEE9; }
+        """)
         self.mentees_layout.addWidget(self.mentee_list_widget)
         self.mentees_tab.setLayout(self.mentees_layout)
         self.tabs.addTab(self.mentees_tab, "Mentees")
 
+        # Details Tab
         self.details_tab = QWidget()
         self.details_layout = QVBoxLayout()
         details_scroll = QScrollArea()
         details_scroll.setWidgetResizable(True)
         container_details = QFrame()
         self.form_layout = QFormLayout()
+        self.form_layout.setSpacing(20)
         container_details.setLayout(self.form_layout)
         details_scroll.setWidget(container_details)
         self.details_layout.addWidget(details_scroll)
         self.details_tab.setLayout(self.details_layout)
         self.tabs.addTab(self.details_tab, "Mentee Details")
 
+        # Assign Tab
         self.assign_tab = QWidget()
         assign_layout = QVBoxLayout()
-        assign_layout.setSpacing(15)
+        assign_layout.setSpacing(20)
+
+        assign_label = QLabel("Unassigned Students:")
+        assign_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #4C566A;")
+        assign_layout.addWidget(assign_label)
 
         self.unassigned_list = QListWidget()
-        assign_layout.addWidget(QLabel("Unassigned Students:"))
+        self.unassigned_list.setStyleSheet("""
+            QListWidget { border: 2px solid #D8DEE9; border-radius: 10px; background-color: #FFFFFF; font-size: 14px; }
+            QListWidget::item { padding: 10px; border-bottom: 1px solid #ECEFF4; }
+            QListWidget::item:selected { background-color: #81A1C1; color: white; }
+            QListWidget::item:hover { background-color: #D8DEE9; }
+        """)
         assign_layout.addWidget(self.unassigned_list)
 
         self.assign_btn = QPushButton("Assign Selected to Me")
-        self.assign_btn.setMinimumHeight(40)
+        self.assign_btn.setMinimumHeight(50)
+        self.assign_btn.setToolTip("Assign the selected student as your mentee")
         self.assign_btn.setStyleSheet("""
-            QPushButton { background-color:#007BFF; color:white; border-radius:6px; font-weight:bold; }
-            QPushButton:hover { background-color:#0056b3; }
+            QPushButton { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #A3BE8C, stop:1 #88C0D0); color: white; border-radius: 12px; font-weight: bold; font-size: 15px; padding: 15px; }
+            QPushButton:hover { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #8FBCBB, stop:1 #81A1C1); }
+            QPushButton:pressed { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #5E81AC, stop:1 #4C566A); }
         """)
         self.assign_btn.clicked.connect(self.assign_selected)
         assign_layout.addWidget(self.assign_btn)
@@ -105,31 +137,35 @@ class TeacherDashboard(QWidget):
 
         for field in self.readonly_fields:
             lbl = QLabel(field.replace("_"," ").title())
+            lbl.setStyleSheet("font-size: 15px; font-weight: bold; color: #4C566A;")
             edit = QLineEdit()
             edit.setReadOnly(True)
-            edit.setMinimumHeight(35)
+            edit.setMinimumHeight(45)
             edit.setStyleSheet("""
-                QLineEdit { padding:8px; border-radius:6px; border:1px solid #ccc; background:#eee; font-size:14px; }
+                QLineEdit { padding: 12px; border-radius: 10px; border: 2px solid #D8DEE9; background-color: #ECEFF4; font-size: 14px; color: #8FBCBB; }
             """)
             self.fields[field] = edit
             self.form_layout.addRow(lbl, edit)
 
         for field in self.editable_fields:
             lbl = QLabel(field.replace("_"," ").title())
+            lbl.setStyleSheet("font-size: 15px; font-weight: bold; color: #4C566A;")
             edit = QLineEdit()
-            edit.setMinimumHeight(35)
+            edit.setMinimumHeight(45)
             edit.setStyleSheet("""
-                QLineEdit { padding:8px; border-radius:6px; border:1px solid #ccc; font-size:14px; }
-                QLineEdit:focus { border-color:#007BFF; }
+                QLineEdit { padding: 12px; border-radius: 10px; border: 2px solid #D8DEE9; font-size: 14px; background-color: #FFFFFF; }
+                QLineEdit:focus { border-color: #5E81AC; background-color: #F8F9FA; }
             """)
             self.fields[field] = edit
             self.form_layout.addRow(lbl, edit)
 
         self.save_btn = QPushButton("Save Changes")
-        self.save_btn.setMinimumHeight(40)
+        self.save_btn.setMinimumHeight(50)
+        self.save_btn.setToolTip("Save the updated mentee information")
         self.save_btn.setStyleSheet("""
-            QPushButton { background-color:#007BFF; color:white; border-radius:6px; font-weight:bold; }
-            QPushButton:hover { background-color:#0056b3; }
+            QPushButton { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #A3BE8C, stop:1 #88C0D0); color: white; border-radius: 12px; font-weight: bold; font-size: 15px; padding: 15px; }
+            QPushButton:hover { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #8FBCBB, stop:1 #81A1C1); }
+            QPushButton:pressed { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #5E81AC, stop:1 #4C566A); }
         """)
         self.save_btn.clicked.connect(self.save_changes)
         self.form_layout.addRow(self.save_btn)
@@ -138,8 +174,9 @@ class TeacherDashboard(QWidget):
         window_layout.addWidget(scroll)
 
         self.setStyleSheet("""
-            QWidget { background-color:#fff; font-family: Arial, sans-serif; color:#333; }
-            QLabel { font-size:14px; }
+            QWidget { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #F8F9FA, stop:1 #ECEFF4); font-family: 'Segoe UI', Arial, sans-serif; color: #2E3440; }
+            QLabel { font-size: 15px; }
+            QScrollArea { border: none; }
         """)
 
     def load_mentees(self):
@@ -202,4 +239,3 @@ class TeacherDashboard(QWidget):
         self.close()
         if self.login_window:
             self.login_window.show()
-
